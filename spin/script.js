@@ -2,9 +2,12 @@ const squares = document.querySelectorAll(".square");
 const meterFill = document.getElementById("meter-fill");
 const cpsReadout = document.getElementById("cps-readout");
 const winBanner = document.getElementById("win-banner");
+const explosion = document.getElementById("explosion");
+const reloadControl = document.getElementById("reload-control");
+const reloadButton = document.getElementById("reload-button");
 const fasterPromptsContainer = document.getElementById("faster-prompts");
 
-const MAX_CPS = 8; // clicks/sec needed to reach full speed
+const MAX_CPS = 8.5; // clicks/sec needed to reach full speed
 const ENERGY_SMOOTHING_UP = 2; // higher = energy climbs toward target faster
 const ENERGY_SMOOTHING_DOWN = 0.3; // lower = slower, gentler coast back down
 const COLOR_SMOOTHING_UP = 0.4; // lower than ENERGY_SMOOTHING_UP = slower to heat up
@@ -12,7 +15,7 @@ const COLOR_SMOOTHING_DOWN = 1.1; // higher than ENERGY_SMOOTHING_DOWN = quicker
 const EASE_EXPONENT = 3.5; // higher = slower kickstart, sharper ramp near max
 const COMMON_DEG_PER_SEC = 600; // shared spin speed for every square, at energy = 1
 const SPREAD_DEG_PER_UNIT = 5; // extra twist per (index + 1), at energy = 1
-const WIN_HOLD_MS = 1400;
+const WIN_STROBE_MS = 1300; // full-screen blast takeover before it fades and reveals the wreckage
 const WIN_RESET_TRANSITION_MS = 600;
 
 const MAX_PROMPTS = 14; // "Faster!" prompts on screen at energy = 1
@@ -121,30 +124,46 @@ function updatePrompts(promptEnergy) {
 function triggerWin() {
   isWinning = true;
   document.body.classList.add("is-winning");
+  explosion.style.backgroundColor = "";
+  explosion.classList.add("is-visible", "is-exploding");
   winBanner.classList.add("is-visible");
 
   setTimeout(() => {
-    winBanner.classList.remove("is-visible");
+    // Freeze on whatever color the strobe last landed on instead of fading
+    // it away — the aftermath screen is just that flat color plus the
+    // banner/repair control, with the wrecked squares never uncovered.
+    explosion.style.backgroundColor = getComputedStyle(explosion).backgroundColor;
     document.body.classList.remove("is-winning");
-
-    squareData.forEach(({ square }) => {
-      square.classList.add("square--resetting");
-    });
-
-    clickTimes = [];
-    energy = 0;
-    colorEnergy = 0;
-    commonAngle = 0;
-    applyVisuals(0, 0);
-
-    setTimeout(() => {
-      squareData.forEach(({ square }) => {
-        square.classList.remove("square--resetting");
-      });
-      isWinning = false;
-    }, WIN_RESET_TRANSITION_MS);
-  }, WIN_HOLD_MS);
+    explosion.classList.remove("is-exploding");
+    reloadControl.classList.add("is-visible");
+  }, WIN_STROBE_MS);
 }
+
+function repairGame() {
+  winBanner.classList.remove("is-visible");
+  reloadControl.classList.remove("is-visible");
+  explosion.classList.remove("is-visible");
+  explosion.style.backgroundColor = "";
+
+  squareData.forEach(({ square }) => {
+    square.classList.add("square--resetting");
+  });
+
+  clickTimes = [];
+  energy = 0;
+  colorEnergy = 0;
+  commonAngle = 0;
+  applyVisuals(0, 0);
+
+  setTimeout(() => {
+    squareData.forEach(({ square }) => {
+      square.classList.remove("square--resetting");
+    });
+    isWinning = false;
+  }, WIN_RESET_TRANSITION_MS);
+}
+
+reloadButton.addEventListener("click", repairGame);
 
 document.addEventListener("click", () => {
   if (isWinning) return;
