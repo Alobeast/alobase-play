@@ -7,7 +7,7 @@ const reloadControl = document.getElementById("reload-control");
 const reloadButton = document.getElementById("reload-button");
 const fasterPromptsContainer = document.getElementById("faster-prompts");
 
-const MAX_CPS = 8.5; // clicks/sec needed to reach full speed
+const MAX_CPS = 8; // clicks/sec needed to reach full speed
 const ENERGY_SMOOTHING_UP = 2; // higher = energy climbs toward target faster
 const ENERGY_SMOOTHING_DOWN = 0.3; // lower = slower, gentler coast back down
 const COLOR_SMOOTHING_UP = 0.4; // lower than ENERGY_SMOOTHING_UP = slower to heat up
