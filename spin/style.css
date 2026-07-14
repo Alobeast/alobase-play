@@ -20,11 +20,6 @@ body {
   transform: translate(-50%, -50%) rotate(0deg);
 }
 
-.square--resetting {
-  transition: transform 0.8s ease, border-radius 0.8s ease,
-    opacity 0.8s ease, border-width 0.8s ease, border-color 0.8s ease;
-}
-
 .hud {
   position: fixed;
   top: 24px;

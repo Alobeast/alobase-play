@@ -15,8 +15,7 @@ const COLOR_SMOOTHING_DOWN = 1.1; // higher than ENERGY_SMOOTHING_DOWN = quicker
 const EASE_EXPONENT = 3.5; // higher = slower kickstart, sharper ramp near max
 const COMMON_DEG_PER_SEC = 600; // shared spin speed for every square, at energy = 1
 const SPREAD_DEG_PER_UNIT = 5; // extra twist per (index + 1), at energy = 1
-const WIN_STROBE_MS = 1300; // full-screen blast takeover before it fades and reveals the wreckage
-const WIN_RESET_TRANSITION_MS = 600;
+const WIN_STROBE_MS = 1300; // full-screen blast takeover before it settles and shows the repair control
 
 const MAX_PROMPTS = 14; // "Faster!" prompts on screen at energy = 1
 const PROMPT_MIN_SCALE = 0.6;
@@ -139,31 +138,7 @@ function triggerWin() {
   }, WIN_STROBE_MS);
 }
 
-function repairGame() {
-  winBanner.classList.remove("is-visible");
-  reloadControl.classList.remove("is-visible");
-  explosion.classList.remove("is-visible");
-  explosion.style.backgroundColor = "";
-
-  squareData.forEach(({ square }) => {
-    square.classList.add("square--resetting");
-  });
-
-  clickTimes = [];
-  energy = 0;
-  colorEnergy = 0;
-  commonAngle = 0;
-  applyVisuals(0, 0);
-
-  setTimeout(() => {
-    squareData.forEach(({ square }) => {
-      square.classList.remove("square--resetting");
-    });
-    isWinning = false;
-  }, WIN_RESET_TRANSITION_MS);
-}
-
-reloadButton.addEventListener("click", repairGame);
+reloadButton.addEventListener("click", () => window.location.reload());
 
 document.addEventListener("click", () => {
   if (isWinning) return;
