@@ -4,7 +4,7 @@ const cpsReadout = document.getElementById("cps-readout");
 const winBanner = document.getElementById("win-banner");
 const fasterPromptsContainer = document.getElementById("faster-prompts");
 
-const MAX_CPS = 9; // clicks/sec needed to reach full speed
+const MAX_CPS = 8; // clicks/sec needed to reach full speed
 const ENERGY_SMOOTHING_UP = 2; // higher = energy climbs toward target faster
 const ENERGY_SMOOTHING_DOWN = 0.3; // lower = slower, gentler coast back down
 const COLOR_SMOOTHING_UP = 0.4; // lower than ENERGY_SMOOTHING_UP = slower to heat up
@@ -15,7 +15,7 @@ const SPREAD_DEG_PER_UNIT = 5; // extra twist per (index + 1), at energy = 1
 const WIN_HOLD_MS = 1400;
 const WIN_RESET_TRANSITION_MS = 600;
 
-const MAX_PROMPTS = 8; // "Faster!" prompts on screen at energy = 1
+const MAX_PROMPTS = 14; // "Faster!" prompts on screen at energy = 1
 const PROMPT_MIN_SCALE = 0.6;
 const PROMPT_MAX_SCALE = 2.2;
 const PROMPT_FADE_MS = 300;
