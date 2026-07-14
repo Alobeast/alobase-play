@@ -1,0 +1,115 @@
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  background-color: #2e19ff;
+}
+
+.square {
+  border: 100px solid #810044;
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%) rotate(0deg);
+}
+
+.square--resetting {
+  transition: transform 0.8s ease, border-radius 0.8s ease,
+    opacity 0.8s ease, border-width 0.8s ease, border-color 0.8s ease;
+}
+
+.hud {
+  position: fixed;
+  top: 24px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 10;
+  text-align: center;
+  color: #fff;
+  font-family: system-ui, sans-serif;
+  user-select: none;
+}
+
+.hud__instructions {
+  margin-bottom: 10px;
+  font-size: 1.1rem;
+  opacity: 0.85;
+}
+
+.hud__stat {
+  margin-top: 8px;
+  font-size: 0.9rem;
+  opacity: 0.7;
+}
+
+.meter {
+  width: 260px;
+  height: 14px;
+  border-radius: 7px;
+  background: rgba(255, 255, 255, 0.15);
+  overflow: hidden;
+}
+
+.meter__fill {
+  height: 100%;
+  width: 0%;
+  background: linear-gradient(90deg, #810044, #b9ff73);
+  transition: width 0.05s linear;
+}
+
+.win-banner {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%) scale(0.7);
+  z-index: 20;
+  font-size: 3rem;
+  font-weight: normal;
+  color: #b9ff73;
+  text-shadow: 0 0 20px rgba(185, 255, 115, 0.8);
+  font-family: "Luckiest Guy", system-ui, sans-serif;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.3s ease, transform 0.3s ease;
+}
+
+.win-banner.is-visible {
+  opacity: 1;
+  transform: translate(-50%, -50%) scale(1);
+}
+
+body.is-winning {
+  animation: flash-bg 0.3s ease-in-out 2;
+}
+
+.faster-prompt {
+  position: fixed;
+  transform: translate(-50%, -50%) scale(0.2);
+  font-family: "Luckiest Guy", system-ui, sans-serif;
+  font-weight: normal;
+  font-size: 2rem;
+  color: #fde047;
+  text-shadow: 0 0 12px rgba(249, 115, 22, 0.85), 0 0 4px rgba(0, 0, 0, 0.5);
+  opacity: 0;
+  pointer-events: none;
+  user-select: none;
+  white-space: nowrap;
+  z-index: 15;
+  transition: opacity 0.3s ease;
+}
+
+.faster-prompt.is-visible {
+  opacity: 0.9;
+}
+
+@keyframes flash-bg {
+  0%, 100% { background-color: #2e19ff; }
+  50% { background-color: #4a2fff; }
+}
